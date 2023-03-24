@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNetCoreBackend", "ASPNetCoreBackend.csproj", "{D16902E9-1BF2-4BAA-B0CB-7684D2D2998C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib", "..\Lib\Lib.csproj", "{47C280B3-AE74-4A37-ACD4-D80195E28EA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D16902E9-1BF2-4BAA-B0CB-7684D2D2998C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16902E9-1BF2-4BAA-B0CB-7684D2D2998C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16902E9-1BF2-4BAA-B0CB-7684D2D2998C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16902E9-1BF2-4BAA-B0CB-7684D2D2998C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47C280B3-AE74-4A37-ACD4-D80195E28EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47C280B3-AE74-4A37-ACD4-D80195E28EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47C280B3-AE74-4A37-ACD4-D80195E28EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47C280B3-AE74-4A37-ACD4-D80195E28EA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72E47D3E-2059-4F74-8F2A-649A13B462E5}
+	EndGlobalSection
+EndGlobal
