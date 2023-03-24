@@ -27,15 +27,22 @@ namespace Lib.BusinessLogic.Implementations
                 Email = model.Email,
                 Password = model.Password
             };
+
             var firebaseUser = await firebaseAuth.CreateUserAsync(userRecord);
+
             var user = new User
             {
                 FirebaseUid = firebaseUser.Uid,
                 Firstname = model.Firstname,
                 Lastname = model.Lastname
             };
+
             await context.Users.AddAsync(user);
+
+            await firebaseAuth.SetCustomUserClaimsAsync(user.FirebaseUid, new Dictionary<string, object> { { "user_id", user.Id.ToString() } });
+
             await context.SaveChangesAsync();
+
             return user;
         }
 
