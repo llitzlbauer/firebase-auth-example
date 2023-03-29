@@ -4,13 +4,13 @@ using Google.Apis.Auth.OAuth2;
 using Lib.BusinessLogic.Implementations;
 using Lib.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>();
-
 
 AddFirebaseAdmin();
 builder.Services.AddControllers();
@@ -19,6 +19,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        //TODO: eure project id einfügen
         options.Authority = "https://securetoken.google.com/fir-auth-example-a3add";
         options.TokenValidationParameters = new()
         {
@@ -78,10 +79,13 @@ app.MapControllers();
 
 app.Run();
 
+app.UseHttpLogging();
 
 
 void AddFirebaseAdmin()
 {
+    //TODO: Firebase-Konsole -> Projekteinstellungen -> Dienstkonten -> Firebase Admin SDK -> Neuen privaten Schlüssel generieren
+    //File dann unter util speichern
     var pathToKey = Path.Combine(Directory.GetCurrentDirectory(), "Util/fir-auth-example-a3add-firebase-adminsdk-w794j-aded73c601.json");
     FirebaseApp.Create(new AppOptions
     {
