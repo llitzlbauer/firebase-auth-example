@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject, distinctUntilChanged, map, Observable } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, first, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +22,6 @@ export class AuthService {
         this.onAuthenticatedSubject.next(false);
       }
     });
-  }
-
-  get accessToken(): Observable<string> {
-    return this.afAuth.idToken.pipe(map(x => x ?? ''));
   }
 
   get isAuthenticated$(): Observable<boolean> {

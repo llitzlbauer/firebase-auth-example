@@ -18,12 +18,11 @@ namespace ASPNetCoreBackend.Controllers
             this.userService = userService;
         }
 
-        
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserDto), 200)]
         public IActionResult Get(Guid id)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == "user_id")?.Value;
+            var userId = User.Claims.FirstOrDefault(x => x.Type == "my_user_id")?.Value;
 
             if (userId == null) return BadRequest("no user id claim found");
             if (Guid.Parse(userId) != id) return Unauthorized("User is not permitted to access data of antoher user");

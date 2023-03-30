@@ -39,7 +39,12 @@ namespace Lib.BusinessLogic.Implementations
 
             await context.Users.AddAsync(user);
 
-            await firebaseAuth.SetCustomUserClaimsAsync(user.FirebaseUid, new Dictionary<string, object> { { "user_id", user.Id.ToString() } });
+            var claims = new Dictionary<string, object>
+            {
+                { "my_user_id", user.Id.ToString() }
+            };
+
+            await firebaseAuth.SetCustomUserClaimsAsync(user.FirebaseUid, claims);
 
             await context.SaveChangesAsync();
 

@@ -18,11 +18,9 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { map, take } from 'rxjs';
 
-export async function usersServiceFactory(httpClient: HttpClient, afAuth: AngularFireAuth) {
-  const basePath = 'https://localhost:7050/';
-  const token = await afAuth.idToken.pipe(take(1) , map(x => x ?? '')).toPromise();
-  const configuration = new Configuration({ accessToken: token });
-  return new UsersService(httpClient, basePath, configuration);
+export function usersServiceFactory(httpClient: HttpClient, afAuth: AngularFireAuth) {
+  const basePath = 'https://localhost:7050';
+  return new UsersService(httpClient, basePath, new Configuration({withCredentials: true}));
 }
 
 @NgModule({

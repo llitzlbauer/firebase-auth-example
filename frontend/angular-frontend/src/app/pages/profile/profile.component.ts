@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { UsersService } from 'src/swagger';
+import { Configuration, UsersService } from 'src/swagger';
 
 @Component({
   selector: 'app-profile',
@@ -13,16 +14,21 @@ export class ProfileComponent {
   
 
   constructor(
-    private usersService: UsersService,
-    private authService: AuthService) {
+    private auth: AngularFireAuth,
+    private usersService: UsersService) {
     
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.usersService.usersIdGet('824C2BA4-80BB-44E5-67AF-08DB2CB35B58').subscribe(x => {
-      console.log(x);
-    });
+    
+    this.auth.idTokenResult.subscribe(token => {
+      if(token == null) console.log('error');
+      this.usersService.configuration.apiKeys = {Authorization: `Bearer ${token!.token}`};
+      this.usersService.usersIdGet(token!.claims['my_user_id']).subscribe(x => {
+        console.log(x);
+      });
+    });   
   }
 }

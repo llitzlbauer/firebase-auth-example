@@ -12,25 +12,39 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>();
 
-AddFirebaseAdmin();
-builder.Services.AddControllers();
-builder.Services.AddSingleton(FirebaseAuth.DefaultInstance);
-builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         //TODO: eure project id einfügen
-        options.Authority = "https://securetoken.google.com/fir-auth-example-a3add";
+        options.Authority = "https://securetoken.google.com/fir-auth-example-8dbdb";
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
-            ValidIssuer = "https://securetoken.google.com/fir-auth-example-a3add",
+            ValidIssuer = "https://securetoken.google.com/fir-auth-example-8dbdb",
+            ValidAudience = "fir-auth-example-8dbdb",
             ValidateAudience = false,
             ValidateLifetime = true
         };
     });
+
+AddFirebaseAdmin();
+builder.Services.AddControllers();
+builder.Services.AddSingleton(FirebaseAuth.DefaultInstance);
+builder.Services.AddTransient<IUserService, UserService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+            builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                        .AllowCredentials()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+});
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -71,9 +85,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 
@@ -86,7 +102,7 @@ void AddFirebaseAdmin()
 {
     //TODO: Firebase-Konsole -> Projekteinstellungen -> Dienstkonten -> Firebase Admin SDK -> Neuen privaten Schlüssel generieren
     //File dann unter util speichern
-    var pathToKey = Path.Combine(Directory.GetCurrentDirectory(), "Util/fir-auth-example-a3add-firebase-adminsdk-w794j-aded73c601.json");
+    var pathToKey = Path.Combine(Directory.GetCurrentDirectory(), "Util/fir-auth-example-8dbdb-firebase-adminsdk-w46s9-5f4d2b36bd.json");
     FirebaseApp.Create(new AppOptions
     {
         Credential = GoogleCredential.FromFile(pathToKey)
